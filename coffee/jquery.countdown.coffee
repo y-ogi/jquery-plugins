@@ -2,10 +2,9 @@
 #
 # Author: Yuta OGIHARA
 #
-jQuery.fn.countdown = (target, options) ->
+jQuery.fn.countdown = (target, options, callback) ->
 
-    default_options =
-        done_func: null 
+    default_options = {}
 
     # options
     options = $.extend {}, default_options, options
@@ -16,14 +15,13 @@ jQuery.fn.countdown = (target, options) ->
 
         full.substr full.length - length, length
 
-    start_countdown = (el, target, options) ->
+    start_countdown = (el, target, options, callback) ->
         that = $(el)
 
         once = false
         interval = (ms, func) -> setInterval func, ms
         interval 300, ->
             now = new Date()
-
             dd = padding Math.floor((target - now) / (24 * 60 * 60 * 1000)) * 24
             dh = padding Math.floor(((target - now) % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000))
             dm = padding Math.floor(((target - now) % (24 * 60 * 60 * 1000)) / (60 * 1000)) % 60
@@ -33,18 +31,14 @@ jQuery.fn.countdown = (target, options) ->
             if target > now
                 that.html "#{dd}:#{dm}:#{ds}"
             else
-                if options.done_func? and once is false
-                    options.done_func()
+                if callback? and once is false
+                    callback()
                     once = true
 
         null
 
     @.each(() ->
-
-        that = $(@)
-
-        start_countdown @, target, options
-
+        start_countdown @, target, options, callback
         null
     )
     this

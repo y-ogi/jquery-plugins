@@ -1,9 +1,7 @@
 
-jQuery.fn.countdown = function(target, options) {
+jQuery.fn.countdown = function(target, options, callback) {
   var default_options, padding, start_countdown;
-  default_options = {
-    done_func: null
-  };
+  default_options = {};
   options = $.extend({}, default_options, options);
   padding = function(value, length, str) {
     var fill, full, n;
@@ -20,7 +18,7 @@ jQuery.fn.countdown = function(target, options) {
     full = "" + fill + value;
     return full.substr(full.length - length, length);
   };
-  start_countdown = function(el, target, options) {
+  start_countdown = function(el, target, options, callback) {
     var interval, once, that;
     that = $(el);
     once = false;
@@ -38,8 +36,8 @@ jQuery.fn.countdown = function(target, options) {
       if (target > now) {
         return that.html("" + dd + ":" + dm + ":" + ds);
       } else {
-        if ((options.done_func != null) && once === false) {
-          options.done_func();
+        if ((callback != null) && once === false) {
+          callback();
           return once = true;
         }
       }
@@ -47,9 +45,7 @@ jQuery.fn.countdown = function(target, options) {
     return null;
   };
   this.each(function() {
-    var that;
-    that = $(this);
-    start_countdown(this, target, options);
+    start_countdown(this, target, options, callback);
     return null;
   });
   return this;

@@ -18,10 +18,9 @@
 
     $('#prefix').html('before:');
 
-    $('#countdown').countdown(target, {done_func: function() {
+    $('#countdown').countdown(target, {}, function() {
             $('#prefix').html('after:');
             $('#countdown').countdown(new_target);
-        }
      });
 </script>
 </body>
