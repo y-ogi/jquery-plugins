@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Countdown</title>
+</head>
+<body>
+
+    <span id="prefix"></span><span id="countdown"></span>
+
+<script src="/media/js/jquery.min.js"></script>
+<script src="/media/js/jquery.countdown.js"></script>
+<script type="text/javascript">
+    var target = new Date();
+    target.setMinutes(target.getMinutes() + 1);
+    var new_target = new Date();
+    new_target.setMinutes(new_target.getMinutes() + 2);
+
+    $('#prefix').html('before:');
+
+    $('#countdown').countdown(target, {done_func: function() {
+            $('#prefix').html('after:');
+            $('#countdown').countdown(new_target);
+        }
+     });
+</script>
+</body>
+</html>
