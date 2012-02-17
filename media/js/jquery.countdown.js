@@ -1,6 +1,6 @@
 
 jQuery.fn.countdown = function(target, options, callback) {
-  var default_options, padding, start_countdown;
+  var default_options, format, padding, start;
   default_options = {};
   options = $.extend({}, default_options, options);
   padding = function(value, length, str) {
@@ -18,23 +18,28 @@ jQuery.fn.countdown = function(target, options, callback) {
     full = "" + fill + value;
     return full.substr(full.length - length, length);
   };
-  start_countdown = function(el, target, options, callback) {
+  format = function(now, target) {
+    var dd, dh, dm, ds, hour;
+    dd = Math.floor((target - now) / (24 * 60 * 60 * 1000)) * 24;
+    dh = Math.floor(((target - now) % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+    dm = padding(Math.floor(((target - now) % (24 * 60 * 60 * 1000)) / (60 * 1000)) % 60);
+    ds = padding(Math.floor(((target - now) % (24 * 60 * 60 * 1000)) / 1000) % 60 % 60);
+    hour = padding(dh + dd);
+    return "" + hour + ":" + dm + ":" + ds;
+  };
+  start = function(el, target, options, callback) {
     var interval, once, that;
     that = $(el);
     once = false;
+    that.html(format(new Date(), target));
     interval = function(ms, func) {
       return setInterval(func, ms);
     };
     interval(300, function() {
-      var dd, dh, dm, ds, min, now;
+      var now;
       now = new Date();
-      dd = padding(Math.floor((target - now) / (24 * 60 * 60 * 1000)) * 24);
-      dh = padding(Math.floor(((target - now) % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000)));
-      dm = padding(Math.floor(((target - now) % (24 * 60 * 60 * 1000)) / (60 * 1000)) % 60);
-      ds = padding(Math.floor(((target - now) % (24 * 60 * 60 * 1000)) / 1000) % 60 % 60);
-      min = dh + dd;
       if (target > now) {
-        return that.html("" + dd + ":" + dm + ":" + ds);
+        return that.html(format(now, target));
       } else {
         if ((callback != null) && once === false) {
           callback();
@@ -45,7 +50,7 @@ jQuery.fn.countdown = function(target, options, callback) {
     return null;
   };
   this.each(function() {
-    start_countdown(this, target, options, callback);
+    start(this, target, options, callback);
     return null;
   });
   return this;

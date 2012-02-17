@@ -18,9 +18,12 @@
 
     $('#prefix').html('before:');
 
-    $('#countdown').countdown(target, {}, function() {
-            $('#prefix').html('after:');
-            $('#countdown').countdown(new_target);
+    var cd = $('#countdown');
+    cd.countdown(target, {}, function() {
+        $('#prefix').html('after:');
+        cd.countdown(new_target, {}, function(){
+            cd.html('the end');
+        });
      });
 </script>
 </body>

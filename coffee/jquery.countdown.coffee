@@ -15,21 +15,30 @@ jQuery.fn.countdown = (target, options, callback) ->
 
         full.substr full.length - length, length
 
-    start_countdown = (el, target, options, callback) ->
-        that = $(el)
+    format = (now, target) ->
+        dd = Math.floor((target - now) / (24 * 60 * 60 * 1000)) * 24
+        dh = Math.floor(((target - now) % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000))
+        dm = padding Math.floor(((target - now) % (24 * 60 * 60 * 1000)) / (60 * 1000)) % 60
+        ds = padding Math.floor(((target - now) % (24 * 60 * 60 * 1000)) / 1000) % 60 % 60
+        hour = padding dh + dd
+        "#{hour}:#{dm}:#{ds}"
 
+
+    start = (el, target, options, callback) ->
+
+        # init args
+        that = $(el)
         once = false
+
+        # display
+        that.html(format new Date(), target)
+
+        # interval
         interval = (ms, func) -> setInterval func, ms
         interval 300, ->
             now = new Date()
-            dd = padding Math.floor((target - now) / (24 * 60 * 60 * 1000)) * 24
-            dh = padding Math.floor(((target - now) % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000))
-            dm = padding Math.floor(((target - now) % (24 * 60 * 60 * 1000)) / (60 * 1000)) % 60
-            ds = padding Math.floor(((target - now) % (24 * 60 * 60 * 1000)) / 1000) % 60 % 60
-            min = dh + dd
-
             if target > now
-                that.html "#{dd}:#{dm}:#{ds}"
+                that.html(format now, target)
             else
                 if callback? and once is false
                     callback()
@@ -38,7 +47,7 @@ jQuery.fn.countdown = (target, options, callback) ->
         null
 
     @.each(() ->
-        start_countdown @, target, options, callback
+        start @, target, options, callback
         null
     )
     this
