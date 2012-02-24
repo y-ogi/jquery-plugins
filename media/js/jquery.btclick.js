@@ -11,7 +11,7 @@ jQuery.fn.btclick = function(callback, options) {
     that.removeClass(options.disabled_class);
     return that.removeAttr('disabled');
   };
-  $.fn.disable = function(interval) {
+  $.fn.disable = function(interval, callback) {
     var delay, that;
     that = $(this);
     that.addClass(options.disabled_class);
@@ -21,7 +21,8 @@ jQuery.fn.btclick = function(callback, options) {
         return setTimeout(func, ms);
       };
       delay(interval, function() {
-        return that.enable();
+        that.enable();
+        if (callback != null) return callback();
       });
     }
     return null;

@@ -2,6 +2,7 @@
         "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <title>button</title>
     <style type="text/css">
 .btn {
@@ -13,6 +14,9 @@
     color: #fff;
     background: url("/media/images/bg_btn.gif") repeat-x;
     text-decoration: none;
+    width: 200px;
+    text-align: center;
+
 }
 
 .btn.font11 a {
@@ -36,39 +40,35 @@
     background: url("/media/images/bg_btn_h.gif") repeat-x;
 }
 
-
-    </style>
+</style>
 
 </head>
 <body>
 
-    <button id="ok" disabled>OK</button>
-    <p class="btn"><span><a href="javascript:void(0);" class="rounded {transparent}" id="btn1">NG</a></span></p>
-    <p class="btn"><span><a href="javascript:void(0);" class="rounded {transparent}" id="btn2">NG</a></span></p>
+	<p class="btn"><span><a href="javascript:void(0);" class="rounded {transparent}" id="btn1">通話開始</a></span></p>
+    <br/><br/>
+    </p><p class="btn"><span><a href="javascript:void(0);" class="rounded {transparent}" id="btn2">通話開始</a></span></p>
 
 <script src="/media/js/jquery.min.js"></script>
 <script src="/media/js/jquery.btclick.js"></script>
+<script src="/media/js/jquery.activity-indicator.min.js"></script>
 <script type="text/javascript">
-$('button').click(function(e) {
-    alert('hoge');
-});
-$('#btn1').click(function(e) {
+$('#btn1').btclick(function(e) {
     var that = $(this);
-    if(that.hasClass('disabled')) {
+    if(that.disabled()) {
     } else {
-        alert('fuga');
-        that.addClass('disabled');
-        setTimeout(function(){
-            that.removeClass('disabled');
-            }, 5000);
+        that.activity({segments: 12, steps: 3, width:2, space: 1, length: 3, color: '#030303', speed: 1.5});
+        that.disable(5000, function(){that.activity(false);});
     }
 });
 
 $('#btn2').btclick(function(e) {
-    if($(this).disabled()) {
+    var that = $(this);
+    var busy = that; //$('#busy2');
+    if(that.disabled()) {
     } else {
-        alert('hoge');
-        $(this).disable(5000);
+        busy.activity({segments: 12, steps: 3, width:2, space: 1, length: 3, color: '#030303', speed: 1.5, align:'left'});
+        that.disable(500000, function(){busy.activity(false);that.show();});
     }
 });
 

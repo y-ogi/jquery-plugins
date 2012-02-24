@@ -15,7 +15,7 @@ jQuery.fn.btclick= (callback, options) ->
         that.removeClass options.disabled_class
         that.removeAttr 'disabled'
 
-    $.fn.disable = (interval) ->
+    $.fn.disable = (interval, callback) ->
         that = $(@)
         that.addClass options.disabled_class
         that.attr 'disabled', 'disabled'
@@ -23,7 +23,10 @@ jQuery.fn.btclick= (callback, options) ->
         # interval 
         if interval?
             delay = (ms, func) -> setTimeout func, ms
-            delay interval, -> that.enable()
+            delay interval, -> 
+                that.enable()
+                if callback?
+                    callback()
         null
 
     $.fn.disabled = ->
