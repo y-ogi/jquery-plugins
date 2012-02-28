@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>flash ver</title>
+    <script type="text/javascript" src="./media/js/jquery.min.js"></script>
+    <script type="text/javascript" src="./media/js/jquery.wizard.js"></script>
+</head>
+<body>
+<!-- step0 -->
+<div id="step0" class="wizard">
+<h3>Skype設定確認</h3>
+<div>
+    <div class="contents">
+        <p>これからSkypeの設定が正しく行われているか確認を行います。</p>
+    </div>
+    <div class="action">
+        <p class="btn"><span><a href="javascript:void(0);" class="rounded {transparent} cancelstep">キャンセル</a></span>
+        <span><a class="rounded {transparent} nextstep" href="#step1">次へ</a></span></p>
+    </div>
+</div>
+</div>
+<!-- /step0 -->
+
+<!-- step1 -->
+<div id="step1" class="wizard" style="display: none;">
+<h3>Step1 Skype IDの設定確認</h3>
+<div>
+    <div class="contents">
+        <p>あなたのSkype IDは以下が設定されています。<br/><br/></p>
+        <p style="text-align: center; font-size:larger;"><b>{{ request.user.skype_id }}</b><br/><br/></p>
+        <p>正しければ、"次へ"</p>
+        <p>正しくない場合は、<a href="{{ url_for('index/profile') }}">プロフィール変更画面</a>より正しいSkype IDを設定してください。</p>
+
+    </div>
+    <div class="action">
+        <p class="btn"><span><a href="javascript:void(0);" class="rounded {transparent} cancelstep">キャンセル</a></span>
+        <span><a class="rounded {transparent} nextstep" href="#step2">次へ</a></span></p>
+    </div>
+</div>
+</div>
+<!-- /step1 -->
+
+<!-- step2 -->
+<div id="step2" class="wizard" style="display: none;">
+<h3>Step2 Echoテスト</h3>
+<div>
+    <div class="contents">
+        <p>マイク、スピーカが正しく設定されているかテストを行います。</p>
+        <p>以下のボタンより、"Skypeテスト通話"に通話を行い、マイクとスピーカーが正しく設定されていることを確認して下さい。<br/><br/></p>
+        <p class="skypebtn">
+        <!--
+        Skype 'Skype Me™!' button
+        http://www.skype.com/go/skypebuttons
+        -->
+        <script type="text/javascript" src="http://download.skype.com/share/skypebuttons/js/skypeCheck.js"></script>
+        <a href="skype:echo123?call"><img src="http://download.skype.com/share/skypebuttons/buttons/call_blue_white_124x52.png" style="border: none;" width="124" height="52" alt="Skype Me™!" /></a><br/><br/>
+        </p>
+        <p></p>
+        <p>正しければ、"次へ"</p>
+        <p>正しくない場合は、<a href="http://www.bbt757.com/ttlfaq/faq/detail.asp?Option=0&NodeID=239&DispNodeID=236&CID=0&Text=&Field=0&KW=0&KWAnd=1&Attrs=&Bind=FALSE&SearchID=&Page=0&Rows=20&Sort=&NB=&FAQID=1236&baID=3&strkind=9&AspPage=LST" target="_blank">トラブルシューティングを</a>を参考に設定を見直して下さい。</p>
+
+    </div>
+    <div class="action">
+        <p class="btn"><span><a href="javascript:void(0);" class="rounded {transparent} cancelstep">キャンセル</a></span>
+        <span><a class="rounded {transparent} nextstep" href="#step3">次へ</a></span></p>
+    </div>
+</div>
+</div>
+<!-- /step2 -->
+
+<script type="text/javascript">
+$('.nextstep').wizard({callbacks:{step1: function(){alert('hoge');}}});
+/*
+$('.nextstep').click(function(e) {
+    var next_step = $(this).attr('href');
+    $(this).parents('.wizard').fadeOut('fast', function() {
+        $(next_step).fadeIn('fast');
+    });
+});*/
+</script>
+</body>
+</html>
