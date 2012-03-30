@@ -33,12 +33,27 @@ jQuery.fn.countdown = (target, options, callback) ->
         # display
         that.html(format new Date(), target)
 
+        # diff
+        diff = 0
+        if options['earlier']?
+            diff = options['earlier']
+	
         # interval
         interval = (ms, func) -> setInterval func, ms
         interval 300, ->
             now = new Date()
-            if target > now
-                that.html(format now, target)
+            earlier = now
+            earlier.setSeconds(now.getSeconds() + diff)
+            
+            if target > earlier
+                if options['altmsg']?
+                    that.html(options['altmsg'])
+                else
+                    # TODO for test
+                    a = format now, target
+                    b = format earlier, target
+                    that.html("#{a} #{b}")
+		    #that.html(format now, target)
             else
                 if callback? and once is false
                     callback()
