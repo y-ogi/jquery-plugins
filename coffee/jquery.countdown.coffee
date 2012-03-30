@@ -53,7 +53,7 @@ jQuery.fn.countdown = (target, options, callback) ->
                     a = format now, target
                     b = format earlier, target
                     that.html("#{a} #{b}")
-		    #that.html(format now, target)
+                    #that.html(format now, target)
             else
                 if callback? and once is false
                     callback()
