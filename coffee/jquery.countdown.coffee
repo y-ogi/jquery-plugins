@@ -30,30 +30,34 @@ jQuery.fn.countdown = (target, options, callback) ->
         that = $(el)
         once = false
 
+        # call back only, do not change display
+        onlycallback = false
+        if options['onlycallback']?
+            onlycallback = options['onlycallback']?
+
         # display
-        that.html(format new Date(), target)
+        if not onlycallback
+            that.html(format new Date(), target)
 
         # diff
-        diff = 0
+        diffsec = 0
+        diffmin = 0
         if options['earlier']?
             diff = options['earlier']
+            diffmin = diff / 60
+            diffsec = diff % 60
 	
         # interval
         interval = (ms, func) -> setInterval func, ms
         interval 300, ->
             now = new Date()
-            earlier = now
-            earlier.setSeconds(now.getSeconds() + diff)
+            earlier = new Date()
+            earlier.setMinutes(now.getMinutes() + diffmin)
+            earlier.setSeconds(now.getSeconds() + diffsec)
             
             if target > earlier
-                if options['altmsg']?
-                    that.html(options['altmsg'])
-                else
-                    # TODO for test
-                    a = format now, target
-                    b = format earlier, target
-                    that.html("#{a} #{b}")
-                    #that.html(format now, target)
+                if not onlycallback
+                    that.html(format now, target)
             else
                 if callback? and once is false
                     callback()
